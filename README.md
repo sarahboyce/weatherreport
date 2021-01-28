@@ -18,7 +18,8 @@
 ## Key Features
 
 ### City Search
-The main purpose of the weather report app is the city search with uses the <a href="https://openweathermap.org/api">OpenWeather API</a>. This will return the current weather forecast in a city found using this API.
+The main purpose of the weather report app is the city search with uses the <a href="https://openweathermap.org/api">OpenWeather API</a>. This will return the current weather forecast in a city found using this API.<br>
+
 <img src="weatherreport/static/readme/city-search.gif" alt="City Search Demo" width="750">
 
 ### Languages
@@ -27,7 +28,8 @@ The weather report app currently supports 3 languages:
 - German
 - French
 
-You can select and update the language in the top nav bar.
+You can select and update the language in the top nav bar.<br>
+
 <img src="weatherreport/static/readme/language.gif" alt="Language Demo" width="750">
 ---
 
