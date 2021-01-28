@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% load bootstrap3 i18n %}
+
+{% block BaseContent %}
+    <div class="row pt-5">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">{% trans "Weather Data" %}</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">{% trans "Search by City Name" %}</h6>
+                    <p class="card-text">
+                        {% trans "Search for the current weather by city name and see its:" %}
+                    </p>
+                    <ul>
+                        <li>{% trans "temperature (including min and max)" %}</li>
+                        <li>{% trans "humidity" %}</li>
+                        <li>{% trans "pressure" %}</li>
+                        <li>{% trans "wind speed and direction" %}</li>
+                    </ul>
+                    <form action="" method="post" class="form">
+                        {% csrf_token %}
+                        {% bootstrap_field form.city_name addon_after='<button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>' %}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            {% if success %}
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ city_name }}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ description }}</h6>
+                        <img src="http://openweathermap.org/img/wn/{{ icon }}@2x.png" alt="weather icon">
+                        <ul>
+                            <li>{% trans "Temperature:" %} {{ temp }}</li>
+                            <li>{% trans "Max Temperature:" %} {{ temp_max }}</li>
+                            <li>{% trans "Min Temperature:" %} {{ temp_min }}</li>
+                            <li>{% trans "Humidity:" %} {{ humidity }}</li>
+                            <li>{% trans "Pressure:" %} {{ pressure }}</li>
+                            <li>{% trans "Wind Speed:" %} {{ wind_speed }}</li>
+                            <li>{% trans "Wind Direction:" %} {{ wind_direction }}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+            {% if error_message %}
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ city_name }}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">{% trans "Oh dear..." %}</h6>
+                        <p class="card-text text-danger">{{ error_message }}</p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
