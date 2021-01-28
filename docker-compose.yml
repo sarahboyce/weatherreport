@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+      target: web
+    env_file:
+      - django.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./mediafiles:/usr/src/app/weatherreport/mediafiles
+    depends_on:
+      - db
+      - redis
+    entrypoint:
+      - ./entrypoints/entrypoint.web.sh
+  db:
+    image: postgres:12.3-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - django.env
+  redis:
+    image: 'redis:latest'
+volumes:
+  postgres_data:
