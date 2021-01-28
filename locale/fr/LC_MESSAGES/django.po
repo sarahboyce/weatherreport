@@ -1,0 +1,114 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-01-25 22:12+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\api\forms.py:11
+msgid "City Name"
+msgstr "Nom de Ville"
+
+#: .\api\forms.py:47
+msgid "No entry found for %(city_name)s"
+msgstr "Aucune entrée trouvée pour %(city_name)s"
+
+#: .\api\forms.py:49
+msgid ""
+"The Open Weather API is not available right now - please try again later"
+msgstr ""
+"L'API Open Weather n'est pas disponible pour le moment - veuillez réessayer "
+"plus tard"
+
+#: .\weatherreport\settings\common.py:114
+msgid "English"
+msgstr "Anglaise"
+
+#: .\weatherreport\settings\common.py:114
+msgid "German"
+msgstr "Allemande"
+
+#: .\weatherreport\settings\common.py:114
+msgid "French"
+msgstr "Français"
+
+#: .\weatherreport\templates\base.html:31
+#: .\weatherreport\templates\index.html:10
+msgid "Weather Data"
+msgstr "Données météorologiques"
+
+#: .\weatherreport\templates\base.html:38
+msgid "Weather Report"
+msgstr "Bulletin météo"
+
+#: .\weatherreport\templates\index.html:11
+msgid "Search by City Name"
+msgstr "Recherche par nom de ville"
+
+#: .\weatherreport\templates\index.html:13
+msgid "Search for the current weather by city name and see its:"
+msgstr "Recherchez la météo actuelle par nom de ville et voyez son:"
+
+#: .\weatherreport\templates\index.html:16
+msgid "temperature (including min and max)"
+msgstr "température (y compris min et max)"
+
+#: .\weatherreport\templates\index.html:17
+msgid "humidity"
+msgstr "humidité"
+
+#: .\weatherreport\templates\index.html:18
+msgid "pressure"
+msgstr "pression"
+
+#: .\weatherreport\templates\index.html:19
+msgid "wind speed and direction"
+msgstr "vitesse et direction du vent"
+
+#: .\weatherreport\templates\index.html:36
+msgid "Temperature:"
+msgstr "Température:"
+
+#: .\weatherreport\templates\index.html:37
+msgid "Max Temperature:"
+msgstr "Température maximale:"
+
+#: .\weatherreport\templates\index.html:38
+msgid "Min Temperature:"
+msgstr "Température minimale:"
+
+#: .\weatherreport\templates\index.html:39
+msgid "Humidity:"
+msgstr "Humidité:"
+
+#: .\weatherreport\templates\index.html:40
+msgid "Pressure:"
+msgstr "Pression:"
+
+#: .\weatherreport\templates\index.html:41
+msgid "Wind Speed:"
+msgstr "Vitesse du vent:"
+
+#: .\weatherreport\templates\index.html:42
+msgid "Wind Direction:"
+msgstr "Direction du vent:"
+
+#: .\weatherreport\templates\index.html:51
+msgid "Oh dear..."
+msgstr "Oh cher..."
+
+#~ msgid "Language not supported"
+#~ msgstr "Langue non prise en charge"
