@@ -10,8 +10,6 @@ services:
       - django.env
     ports:
       - "8000:8000"
-    volumes:
-      - ./mediafiles:/usr/src/app/weatherreport/mediafiles
     depends_on:
       - db
       - redis
@@ -20,7 +18,7 @@ services:
   db:
     image: postgres:12.3-alpine
     ports:
-      - "5432:5432"
+      - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
