@@ -2,13 +2,12 @@ import requests_mock
 from django.core.cache import cache
 from django.test import TestCase
 
-from api.forms import CitySearchForm
+from api.forms import OPEN_WEATHER_API_URL, CitySearchForm
 
 
 class CitySearchFormTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.search_url = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_key}&units=metric&lang={lang}"
         cls.OPEN_WEATHER_API_KEY = "foo"
 
     def test_clean_city_name(self):
@@ -37,11 +36,8 @@ class CitySearchFormTest(TestCase):
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
-            test_url = self.search_url.format(
-                city_name=city_name, API_key=self.OPEN_WEATHER_API_KEY, lang=lang
-            )
             m.get(
-                test_url,
+                OPEN_WEATHER_API_URL,
                 json={
                     "coord": {"lon": -74.006, "lat": 40.7143},
                     "weather": [
@@ -132,10 +128,7 @@ class CitySearchFormTest(TestCase):
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
-            test_url = self.search_url.format(
-                city_name=city_name, API_key=self.OPEN_WEATHER_API_KEY, lang=lang
-            )
-            m.get(test_url, status_code=404)
+            m.get(OPEN_WEATHER_API_URL, status_code=404)
             form = CitySearchForm(data={"city_name": city_name})
             self.assertTrue(
                 form.is_valid(), msg="Confirm valid form as needed before can search"
@@ -159,10 +152,7 @@ class CitySearchFormTest(TestCase):
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
-            test_url = self.search_url.format(
-                city_name=city_name, API_key=self.OPEN_WEATHER_API_KEY, lang=lang
-            )
-            m.get(test_url, status_code=502)
+            m.get(OPEN_WEATHER_API_URL, status_code=502)
             form = CitySearchForm(data={"city_name": city_name})
             self.assertTrue(
                 form.is_valid(), msg="Confirm valid form as needed before can search"

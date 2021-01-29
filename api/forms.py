@@ -6,6 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 
 from api.utils import get_data_open_weather_api
 
+OPEN_WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather"
+
 
 class CitySearchForm(forms.Form):
     city_name = forms.CharField(max_length=200, label=_("City Name"))
@@ -34,11 +36,15 @@ class CitySearchForm(forms.Form):
         """
         result = {}
 
-        endpoint = "https://api.openweathermap.org/data/2.5/weather?q={city_name}&appid={API_key}&units=metric&lang={lang}"
-        url = endpoint.format(
-            city_name=city_name, API_key=settings.OPEN_WEATHER_API_KEY, lang=lang
+        response = requests.get(
+            OPEN_WEATHER_API_URL,
+            params={
+                "q": city_name,
+                "appid": settings.OPEN_WEATHER_API_KEY,
+                "lang": lang,
+                "units": "metric",
+            },
         )
-        response = requests.get(url)
 
         if response.status_code == 200:
             result = get_data_open_weather_api(response.json())

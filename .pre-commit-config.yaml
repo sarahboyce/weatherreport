@@ -16,6 +16,7 @@
   rev: 3.8.3
   hooks:
       - id: flake8
+        args: ['--ignore=E501']
         exclude: weatherreport/
         additional_dependencies:
             [
