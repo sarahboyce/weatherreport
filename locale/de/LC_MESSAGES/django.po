@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-25 22:12+0100\n"
+"POT-Creation-Date: 2021-01-29 19:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,85 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\api\forms.py:11
-msgid "City Name"
-msgstr "Stadtname"
+#: .\api\forms.py:17
+msgid "No entry found for this city"
+msgstr "Für diese Stadt wurde kein Eintrag gefunden"
 
-#: .\api\forms.py:47
-msgid "No entry found for %(city_name)s"
-msgstr "Kein Eintrag gefunden für %(city_name)s"
+#: .\api\forms.py:22
+msgid ""
+"Bad request syntax or unsupported method - please raise an issue in the "
+"GitHub repo"
+msgstr ""
+"Schlechte Anforderungssyntax oder nicht unterstützte Methode - Bitte werfen "
+"Sie ein Problem im GitHub-Repo auf"
 
-#: .\api\forms.py:49
+#: .\api\forms.py:28
+msgid ""
+"Request unauthorised - please check you have set up your Open Weather API "
+"key correctly"
+msgstr ""
+"Nicht autorisierte Anfrage - Bitte überprüfen Sie, ob Sie Ihren Open Weather "
+"API-Schlüssel korrekt eingerichtet haben"
+
+#: .\api\forms.py:34
 msgid ""
 "The Open Weather API is not available right now - please try again later"
 msgstr ""
 "Die Open Weather API ist derzeit nicht verfügbar - versuchen Sie es später "
 "erneut"
 
-#: .\weatherreport\settings\common.py:114
+#: .\api\forms.py:40
+msgid "Internal Server Error - please raise an issue in the GitHub repo"
+msgstr "Interner Serverfehler - Bitte werfen Sie ein Problem im GitHub-Repo auf"
+
+#: .\api\forms.py:46
+msgid ""
+"Invalid response from another server/proxy - please raise an issue in the "
+"GitHub repo"
+msgstr "Ungültige Antwort von einem anderen Server / Proxy - Bitte werfen Sie ein Problem im GitHub-Repo auf"
+
+#: .\api\forms.py:53
+msgid "City Name"
+msgstr "Stadtname"
+
+#: .\api\forms.py:93
+msgid "Unhandled error code, please raise an issue in the GitHub repo"
+msgstr "Nicht behandelter Fehlercode, bitte werfen Sie ein Problem im GitHub-Repo auf"
+
+#: .\api\utils.py:6
+msgid "N"
+msgstr "N"
+
+#: .\api\utils.py:7
+msgid "E"
+msgstr "O"
+
+#: .\api\utils.py:8
+msgid "S"
+msgstr "S"
+
+#: .\api\utils.py:9
+msgid "W"
+msgstr "W"
+
+#: .\weatherreport\settings\common.py:107
 msgid "English"
 msgstr "Englisch"
 
-#: .\weatherreport\settings\common.py:114
+#: .\weatherreport\settings\common.py:107
 msgid "German"
 msgstr "Deutsche"
 
-#: .\weatherreport\settings\common.py:114
+#: .\weatherreport\settings\common.py:107
 msgid "French"
 msgstr "Französisch"
 
-#: .\weatherreport\templates\base.html:31
+#: .\weatherreport\templates\base.html:29
 #: .\weatherreport\templates\index.html:10
 msgid "Weather Data"
 msgstr "Wetterdaten"
 
-#: .\weatherreport\templates\base.html:38
+#: .\weatherreport\templates\base.html:36
 msgid "Weather Report"
 msgstr "Wetterbericht"
 
@@ -60,7 +106,8 @@ msgstr "Suche nach Städtenamen"
 
 #: .\weatherreport\templates\index.html:13
 msgid "Search for the current weather by city name and see its:"
-msgstr "Suchen Sie nach dem aktuellen Wetter nach Städtenamen und sehen Sie seine:"
+msgstr ""
+"Suchen Sie nach dem aktuellen Wetter nach Städtenamen und sehen Sie seine:"
 
 #: .\weatherreport\templates\index.html:16
 msgid "temperature (including min and max)"
@@ -109,6 +156,3 @@ msgstr "Windrichtung:"
 #: .\weatherreport\templates\index.html:51
 msgid "Oh dear..."
 msgstr "Ach je..."
-
-#~ msgid "Language not supported"
-#~ msgstr "Sprache wird nicht unterstützt"

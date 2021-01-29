@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-25 22:12+0100\n"
+"POT-Creation-Date: 2021-01-29 19:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,81 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\api\forms.py:11
-msgid "City Name"
-msgstr "Nom de Ville"
+#: .\api\forms.py:17
+msgid "No entry found for this city"
+msgstr "Aucune entrée trouvée pour cette ville"
 
-#: .\api\forms.py:47
-msgid "No entry found for %(city_name)s"
-msgstr "Aucune entrée trouvée pour %(city_name)s"
+#: .\api\forms.py:22
+msgid ""
+"Bad request syntax or unsupported method - please raise an issue in the "
+"GitHub repo"
+msgstr "Mauvaise syntaxe de requête ou méthode non prise en charge - veuillez signaler un problème dans le référentiel GitHub"
 
-#: .\api\forms.py:49
+#: .\api\forms.py:28
+msgid ""
+"Request unauthorised - please check you have set up your Open Weather API "
+"key correctly"
+msgstr ""
+
+#: .\api\forms.py:34
 msgid ""
 "The Open Weather API is not available right now - please try again later"
 msgstr ""
 "L'API Open Weather n'est pas disponible pour le moment - veuillez réessayer "
 "plus tard"
 
-#: .\weatherreport\settings\common.py:114
+#: .\api\forms.py:40
+msgid "Internal Server Error - please raise an issue in the GitHub repo"
+msgstr "Erreur de serveur interne - veuillez signaler un problème dans le dépôt GitHub"
+
+#: .\api\forms.py:46
+msgid ""
+"Invalid response from another server/proxy - please raise an issue in the "
+"GitHub repo"
+msgstr "Réponse non valide d'un autre serveur / proxy - veuillez signaler un problème dans le référentiel GitHub"
+
+#: .\api\forms.py:53
+msgid "City Name"
+msgstr "Nom de Ville"
+
+#: .\api\forms.py:93
+msgid "Unhandled error code, please raise an issue in the GitHub repo"
+msgstr "Code d'erreur non géré, veuillez signaler un problème dans le dépôt GitHub"
+
+#: .\api\utils.py:6
+msgid "N"
+msgstr "N"
+
+#: .\api\utils.py:7
+msgid "E"
+msgstr "E"
+
+#: .\api\utils.py:8
+msgid "S"
+msgstr "S"
+
+#: .\api\utils.py:9
+msgid "W"
+msgstr "O"
+
+#: .\weatherreport\settings\common.py:107
 msgid "English"
 msgstr "Anglaise"
 
-#: .\weatherreport\settings\common.py:114
+#: .\weatherreport\settings\common.py:107
 msgid "German"
 msgstr "Allemande"
 
-#: .\weatherreport\settings\common.py:114
+#: .\weatherreport\settings\common.py:107
 msgid "French"
 msgstr "Français"
 
-#: .\weatherreport\templates\base.html:31
+#: .\weatherreport\templates\base.html:29
 #: .\weatherreport\templates\index.html:10
 msgid "Weather Data"
 msgstr "Données météorologiques"
 
-#: .\weatherreport\templates\base.html:38
+#: .\weatherreport\templates\base.html:36
 msgid "Weather Report"
 msgstr "Bulletin météo"
 
@@ -109,6 +151,3 @@ msgstr "Direction du vent:"
 #: .\weatherreport\templates\index.html:51
 msgid "Oh dear..."
 msgstr "Oh cher..."
-
-#~ msgid "Language not supported"
-#~ msgstr "Langue non prise en charge"
