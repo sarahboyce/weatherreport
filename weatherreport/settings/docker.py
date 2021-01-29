@@ -8,6 +8,10 @@ STATIC_ROOT = os.path.join(SITE_ROOT, "staticfiles")
 
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.ManifestStaticFilesStorage"
 
+INSTALLED_APPS += ["whitenoise.runserver_nostatic"]
+
+MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")
+
 TEMPLATES[0]["OPTIONS"]["debug"] = DEBUG
 
 DATABASES = {
@@ -34,7 +38,3 @@ CACHES = {
 }
 
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-
-MEDIA_ROOT = "/usr/src/app/weatherreport/mediafiles/"
-
-MEDIA_DIRECTORY = "/media/"

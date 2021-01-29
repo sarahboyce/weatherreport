@@ -1,4 +1,4 @@
-{% load static sekizai_tags i18n i18n_urls %}
+{% load static i18n i18n_urls %}
 
 {% get_current_language as LANGUAGE_CODE %}
 {% get_language_info for LANGUAGE_CODE as current_language %}
@@ -25,8 +25,6 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <!-- FontAwesome -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-
-        {% render_block "css" %}
 
         <title>{% trans "Weather Data" %}</title>
 
@@ -82,8 +80,6 @@
 
         <!-- Language Select Script -->
         <script src="{% static 'js/lang.js' %}"></script>
-
-        {% render_block "js" %}
 
     </body>
 

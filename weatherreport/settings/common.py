@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.forms",
     "bootstrap3",
-    "sekizai",
     "api",
 ]
 
@@ -71,7 +70,6 @@ TEMPLATES = [
                 "django.template.context_processors.i18n",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "sekizai.context_processors.sekizai",
             ],
         },
     },
@@ -118,7 +116,9 @@ LOCALE_PATHS = [
 
 STATIC_URL = "/static/"
 
-STATICFILES_DIRS = (os.path.join(SITE_ROOT, "static"),)
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
 
 OPEN_WEATHER_API_KEY = os.environ.get("OPEN_WEATHER_API_KEY")
 # Amount of time (in seconds) to keep results in the cache, default 5 minutes (300)

@@ -1,7 +1,7 @@
 Django==3.1.5
 django-bootstrap3==12.0.3
 django-redis==4.12.1
-django-sekizai==2.0.0
 gunicorn==20.0.4
 psycopg2==2.8.6
 requests==2.25.1
+whitenoise==5.2.0
