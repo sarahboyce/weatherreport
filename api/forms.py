@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import requests
 from django import forms
 from django.conf import settings
@@ -7,6 +9,44 @@ from django.utils.translation import ugettext_lazy as _
 from api.utils import get_data_open_weather_api
 
 OPEN_WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather"
+
+OPEN_WEATHER_RESPONSES = {
+    HTTPStatus.OK: {"success": True},
+    HTTPStatus.NOT_FOUND: {
+        "success": False,
+        "error_message": _("No entry found for this city"),
+    },
+    HTTPStatus.BAD_REQUEST: {
+        "success": False,
+        "error_message": _(
+            "Bad request syntax or unsupported method - please raise an issue in the GitHub repo"
+        ),
+    },
+    HTTPStatus.UNAUTHORIZED: {
+        "success": False,
+        "error_message": _(
+            "Request unauthorised - please check you have set up your Open Weather API key correctly"
+        ),
+    },
+    HTTPStatus.REQUEST_TIMEOUT: {
+        "success": False,
+        "error_message": _(
+            "The Open Weather API is not available right now - please try again later"
+        ),
+    },
+    HTTPStatus.INTERNAL_SERVER_ERROR: {
+        "success": False,
+        "error_message": _(
+            "Internal Server Error - please raise an issue in the GitHub repo"
+        ),
+    },
+    HTTPStatus.BAD_GATEWAY: {
+        "success": False,
+        "error_message": _(
+            "Invalid response from another server/proxy - please raise an issue in the GitHub repo"
+        ),
+    },
+}
 
 
 class CitySearchForm(forms.Form):
@@ -34,7 +74,6 @@ class CitySearchForm(forms.Form):
 
             }
         """
-        result = {}
 
         response = requests.get(
             OPEN_WEATHER_API_URL,
@@ -46,22 +85,21 @@ class CitySearchForm(forms.Form):
             },
         )
 
-        if response.status_code == 200:
-            result = get_data_open_weather_api(response.json())
-            result["success"] = True
-        else:
-            result["success"] = False
-            if response.status_code == 404:
-                result["error_message"] = _("No entry found for %(city_name)s") % {
-                    "city_name": city_name
-                }
-            else:
-                result["error_message"] = _(
-                    "The Open Weather API is not available right now - please try again later"
-                )
+        response_message = OPEN_WEATHER_RESPONSES.get(
+            response.status_code,
+            {
+                "success": False,
+                "error_message": _(
+                    "Unhandled error code, please raise an issue in the GitHub repo"
+                ),
+            },
+        )
+        response_message["city_name"] = city_name
 
-        result["city_name"] = city_name
-        return result
+        if response_message["success"]:
+            response_message.update(get_data_open_weather_api(response.json()))
+
+        return response_message
 
     def search(self, lang):
         """

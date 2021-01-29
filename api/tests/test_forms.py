@@ -1,8 +1,10 @@
+from http import HTTPStatus
+
 import requests_mock
 from django.core.cache import cache
 from django.test import TestCase
 
-from api.forms import OPEN_WEATHER_API_URL, CitySearchForm
+from api.forms import OPEN_WEATHER_API_URL, OPEN_WEATHER_RESPONSES, CitySearchForm
 
 
 class CitySearchFormTest(TestCase):
@@ -72,7 +74,7 @@ class CitySearchFormTest(TestCase):
                     "id": 5128581,
                     "name": city_name,
                 },
-                status_code=200,
+                status_code=HTTPStatus.OK,
             )
             form = CitySearchForm(data={"city_name": city_name})
             self.assertTrue(
@@ -118,41 +120,39 @@ class CitySearchFormTest(TestCase):
             msg="confirm returns value from cache",
         )
 
-    def test_search_unsuccessful_city_not_found(self):
+    def test_search_unsuccessful_handled_error(self):
         """
         Test a valid City Search Form calls the open weather api and if the city not found,
         returns an error message to render in the template
         """
         city_name = "Fake City"
         lang = "fr"
+        expected_result = {
+            "city_name": city_name,
+            **OPEN_WEATHER_RESPONSES[HTTPStatus.NOT_FOUND],
+        }
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
-            m.get(OPEN_WEATHER_API_URL, status_code=404)
+            m.get(OPEN_WEATHER_API_URL, status_code=HTTPStatus.NOT_FOUND)
             form = CitySearchForm(data={"city_name": city_name})
             self.assertTrue(
                 form.is_valid(), msg="Confirm valid form as needed before can search"
             )
             self.assertEqual(
-                form.search(lang),
-                {
-                    "city_name": city_name,
-                    "success": False,
-                    "error_message": f"No entry found for {city_name}",
-                },
+                form.search(lang), expected_result,
             )
 
-    def test_search_unsuccessful_other_error(self):
+    def test_search_unsuccessful_unhandled(self):
         """
-        Test a valid City Search Form calls the open weather api
-        and if the code is not 200 (successful) or 404 (not found) an error message is returned
+        Test that when an unhandled status code is returned from the API the generic message is returned
         """
-        city_name = "Super Failing City"
+        city_name = "New York"
         lang = "en"
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
-            m.get(OPEN_WEATHER_API_URL, status_code=502)
+            m.get(OPEN_WEATHER_API_URL, status_code=HTTPStatus.LOCKED)
             form = CitySearchForm(data={"city_name": city_name})
             self.assertTrue(
                 form.is_valid(), msg="Confirm valid form as needed before can search"
@@ -162,6 +162,6 @@ class CitySearchFormTest(TestCase):
                 {
                     "city_name": city_name,
                     "success": False,
-                    "error_message": "The Open Weather API is not available right now - please try again later",
+                    "error_message": "Unhandled error code, please raise an issue in the GitHub repo",
                 },
             )

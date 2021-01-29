@@ -1,6 +1,12 @@
 """
 Helper functions
 """
+from django.utils.translation import ugettext_lazy as _
+
+NORTH = _("N")
+EAST = _("E")
+SOUTH = _("S")
+WEST = _("W")
 
 
 def get_data_open_weather_api(response):
@@ -12,13 +18,13 @@ def get_data_open_weather_api(response):
 
     wind_deg = response["wind"]["deg"]
     if 45 < wind_deg <= 135:
-        wind_direction = "E"  # East
+        wind_direction = EAST
     elif 135 < wind_deg <= 225:
-        wind_direction = "S"  # South
+        wind_direction = SOUTH
     elif 225 < wind_deg <= 315:
-        wind_direction = "W"  # West
+        wind_direction = WEST
     else:
-        wind_direction = "N"  # North
+        wind_direction = NORTH
 
     return {
         "description": response["weather"][0]["description"].title(),
