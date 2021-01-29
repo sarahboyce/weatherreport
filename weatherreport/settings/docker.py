@@ -1,4 +1,5 @@
 import os
+
 from weatherreport.settings.common import *
 
 DEBUG = int(os.environ.get("DEBUG", default=0))

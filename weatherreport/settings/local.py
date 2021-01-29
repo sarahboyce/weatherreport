@@ -6,7 +6,6 @@ Please see production.py as an example file for a production deployment
 """
 from .common import *
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
