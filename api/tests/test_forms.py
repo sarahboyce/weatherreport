@@ -5,6 +5,7 @@ from django.core.cache import cache
 from django.test import TestCase
 
 from api.forms import OPEN_WEATHER_API_URL, OPEN_WEATHER_RESPONSES, CitySearchForm
+from api.tests.helpers import NEW_YORK_RESPONSE
 
 
 class CitySearchFormTest(TestCase):
@@ -39,42 +40,7 @@ class CitySearchFormTest(TestCase):
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
             m.get(
-                OPEN_WEATHER_API_URL,
-                json={
-                    "coord": {"lon": -74.006, "lat": 40.7143},
-                    "weather": [
-                        {
-                            "id": 800,
-                            "main": "Clear",
-                            "description": "clear sky",
-                            "icon": "01d",
-                        }
-                    ],
-                    "base": "stations",
-                    "main": {
-                        "temp": -0.19,
-                        "feels_like": -3,
-                        "temp_min": -1.11,
-                        "temp_max": 1,
-                        "pressure": 1020,
-                        "humidity": 34,
-                    },
-                    "visibility": 10000,
-                    "wind": {"speed": 3.09, "deg": 308},
-                    "clouds": {"all": 1},
-                    "dt": 1611511880,
-                    "sys": {
-                        "type": 1,
-                        "id": 5141,
-                        "country": "US",
-                        "sunrise": 1611490354,
-                        "sunset": 1611525811,
-                    },
-                    "timezone": -18000,
-                    "id": 5128581,
-                    "name": city_name,
-                },
-                status_code=HTTPStatus.OK,
+                OPEN_WEATHER_API_URL, json=NEW_YORK_RESPONSE, status_code=HTTPStatus.OK,
             )
             form = CitySearchForm(data={"city_name": city_name})
             self.assertTrue(
