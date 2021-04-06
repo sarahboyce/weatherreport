@@ -1,8 +1,9 @@
-from django.urls import path, re_path
+from django.urls import path
 
-from api import views
+from .views import Index, SearchedIndex
 
 app_name = "api"
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", Index.as_view(), name="index"),
+    path("<str:city_name>/", SearchedIndex.as_view(), name="searched_index"),
 ]

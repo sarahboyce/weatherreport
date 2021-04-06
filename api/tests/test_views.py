@@ -4,21 +4,19 @@ import requests_mock
 from django.test import TestCase
 from django.urls import reverse
 
-from api.forms import OPEN_WEATHER_API_URL
-from api.tests.helpers import NEW_YORK_RESPONSE
+from ..config import OPEN_WEATHER_API_URL
+from .helpers import NEW_YORK_RESPONSE
 
 
 class IndexViewTest(TestCase):
-    @classmethod
-    def setUpTestData(cls):
-        cls.OPEN_WEATHER_API_KEY = "foo"
-        cls.index_url = reverse("api:index")
+    URL = reverse("api:index")
+    OPEN_WEATHER_API_KEY = "foo"
 
-    def test_get_index(self):
+    def test_get_page(self):
         """
-        Test the index page loads with the form rendered
+        Test the page loads with the form rendered
         """
-        response = self.client.get(self.index_url)
+        response = self.client.get(self.URL)
         self.assertEqual(
             response.status_code, HTTPStatus.OK, msg="index page loads successfully"
         )
@@ -32,7 +30,7 @@ class IndexViewTest(TestCase):
         Test that when the form is sent without the city_name
         page is loaded with error message
         """
-        response = self.client.post(self.index_url, {"city_name": ""})
+        response = self.client.post(self.URL, {"city_name": ""})
         self.assertEqual(
             response.status_code, HTTPStatus.OK, msg="index page loads successfully"
         )
@@ -44,8 +42,21 @@ class IndexViewTest(TestCase):
 
     def test_post_valid_form(self):
         """
-        Test when post a valid City Search Form calls the open weather api
-        and the data returned is rendered in the view
+        Test when post a valid City Search Form redirects to the SearchedIndex view
+        """
+        city_name = "New York"
+        response = self.client.post(self.URL, {"city_name": city_name})
+        self.assertRedirects(
+            response, reverse("api:searched_index", kwargs={"city_name": city_name})
+        )
+
+
+class SearchedIndexViewTest(IndexViewTest):
+    URL = reverse("api:searched_index", kwargs={"city_name": "New York"})
+
+    def test_get_page(self):
+        """
+        Test the page loads with the form rendered and the city data from the api
         """
         city_name = "New York"
         with requests_mock.Mocker() as m, self.settings(
@@ -54,9 +65,11 @@ class IndexViewTest(TestCase):
             m.get(
                 OPEN_WEATHER_API_URL, json=NEW_YORK_RESPONSE, status_code=HTTPStatus.OK,
             )
-            response = self.client.post(self.index_url, {"city_name": city_name})
+            response = self.client.get(self.URL)
             self.assertEqual(
-                response.status_code, HTTPStatus.OK, msg="index page loads successfully"
+                response.status_code,
+                HTTPStatus.OK,
+                msg="searched index page loads successfully",
             )
             expected_result_render_page = {
                 "city_name": city_name,
