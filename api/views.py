@@ -1,14 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.utils.translation import get_language
+from django.views import generic
 
-from api.forms import CitySearchForm
+from .forms import CitySearchForm
+from .utils import search
 
 
-def index(request):
-    lang = get_language()
-    city_search_form = CitySearchForm(request.POST or None)
-    searched_data = {}
-    if city_search_form.is_valid():
-        searched_data = city_search_form.search(lang=lang)
+class Index(generic.FormView):
+    template_name = "index.html"
+    form_class = CitySearchForm
 
-    return render(request, "index.html", {"form": city_search_form, **searched_data})
+    def form_valid(self, form, *args, **kwargs):
+        city_name = form.cleaned_data.get("city_name")
+        return redirect("api:searched_index", city_name=city_name)
+
+
+class SearchedIndex(Index, generic.FormView):
+    def get_context_data(self, **kwargs):
+        lang = get_language()
+        searched_data = search(city_name=self.kwargs["city_name"], lang=lang)
+        context_data = super().get_context_data(**kwargs)
+        return {**context_data, **searched_data}
