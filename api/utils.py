@@ -1,9 +1,23 @@
+from dataclasses import dataclass
+
 import requests
 from django.conf import settings
 from django.core.cache import cache
+from django.utils.functional import cached_property
+from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
 from . import config
+
+
+@dataclass
+class CitySearch:
+    city_name: str
+    lang: str
+
+    @cached_property
+    def cache_key(self):
+        return slugify(f"{self.city_name}_{self.lang}")
 
 
 def _get_data_open_weather_api(response):
@@ -36,7 +50,7 @@ def _get_data_open_weather_api(response):
     }
 
 
-def _get_city_name_data_from_open_weather_api(city_name, lang):
+def _get_city_name_data_from_open_weather_api(city_search):
     """
     Using the open weather api, search for the city name's weather data
     Add a success indicator and error message if appropriate
@@ -53,9 +67,9 @@ def _get_city_name_data_from_open_weather_api(city_name, lang):
     response = requests.get(
         config.OPEN_WEATHER_API_URL,
         params={
-            "q": city_name,
+            "q": city_search.city_name,
+            "lang": city_search.lang,
             "appid": settings.OPEN_WEATHER_API_KEY,
-            "lang": lang,
             "units": "metric",
         },
     )
@@ -69,7 +83,7 @@ def _get_city_name_data_from_open_weather_api(city_name, lang):
             ),
         },
     )
-    response_message["city_name"] = city_name
+    response_message["city_name"] = city_search.city_name
 
     if response_message["success"]:
         response_message.update(_get_data_open_weather_api(response.json()))
@@ -77,7 +91,7 @@ def _get_city_name_data_from_open_weather_api(city_name, lang):
     return response_message
 
 
-def search(city_name, lang):
+def search(city_search):
     """
     If the city_name is not available in the cache,
     search for the city_name using `_get_city_name_data_from_open_weather_api`
@@ -90,12 +104,8 @@ def search(city_name, lang):
             "error_message": str,  # Note: available when success is False
         }
     """
-
-    cache_key = f"{city_name}_{lang}"
-    cached_result = cache.get(cache_key)
-    if cached_result:
-        return cached_result
-    else:
-        result = _get_city_name_data_from_open_weather_api(city_name, lang=lang)
-        cache.set(cache_key, result, settings.CACHE_TIMEOUT)
-        return result
+    result = cache.get(city_search.cache_key)
+    if not result:
+        result = _get_city_name_data_from_open_weather_api(city_search)
+        cache.set(city_search.cache_key, result, settings.CACHE_TIMEOUT)
+    return result

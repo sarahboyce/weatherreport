@@ -5,7 +5,7 @@ from django.core.cache import cache
 from django.test import TestCase
 
 from ..config import OPEN_WEATHER_API_URL, OPEN_WEATHER_RESPONSES
-from ..utils import search
+from ..utils import CitySearch, search
 from .helpers import NEW_YORK_RESPONSE
 
 
@@ -32,6 +32,7 @@ class SearchTest(TestCase):
         Test search function calls the open weather api
         and returns a dictionary for rendering in the template and this is saved to cache
         """
+        city_search = CitySearch(city_name=self.CITY_NAME, lang=self.LANG)
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
@@ -39,10 +40,10 @@ class SearchTest(TestCase):
                 OPEN_WEATHER_API_URL, json=NEW_YORK_RESPONSE, status_code=HTTPStatus.OK,
             )
             self.assertEqual(
-                search(self.CITY_NAME, self.LANG), self.EXPECTED_NEW_YORK_DATA,
+                search(city_search), self.EXPECTED_NEW_YORK_DATA,
             )
             self.assertEqual(
-                cache.get("New York_en"),
+                cache.get(city_search.cache_key),
                 self.EXPECTED_NEW_YORK_DATA,
                 msg="result now saved into cache",
             )
@@ -52,11 +53,10 @@ class SearchTest(TestCase):
         Test search function checks the cache and if already in cache returns this result
         """
         example_cached_value = "TEST"
-        city_name = "Cologne"
-        lang = "de"
-        cache.set(f"{city_name}_{lang}", example_cached_value)
+        city_search = CitySearch(city_name="Cologne", lang="de")
+        cache.set(city_search.cache_key, example_cached_value)
         self.assertEqual(
-            search(city_name, lang),
+            search(city_search),
             example_cached_value,
             msg="confirm returns value from cache",
         )
@@ -67,7 +67,7 @@ class SearchTest(TestCase):
         returns an error message to render in the template
         """
         city_name = "Fake City"
-        lang = "fr"
+        city_search = CitySearch(city_name=city_name, lang="fr")
         expected_result = {
             "city_name": city_name,
             **OPEN_WEATHER_RESPONSES[HTTPStatus.NOT_FOUND],
@@ -77,19 +77,20 @@ class SearchTest(TestCase):
         ):
             m.get(OPEN_WEATHER_API_URL, status_code=HTTPStatus.NOT_FOUND)
             self.assertEqual(
-                search(city_name, lang), expected_result,
+                search(city_search), expected_result,
             )
 
     def test_search_unsuccessful_unhandled(self):
         """
         Test that when an unhandled status code is returned from the API the generic message is returned
         """
+        city_search = CitySearch(city_name=self.CITY_NAME, lang=self.LANG)
         with requests_mock.Mocker() as m, self.settings(
             OPEN_WEATHER_API_KEY=self.OPEN_WEATHER_API_KEY
         ):
             m.get(OPEN_WEATHER_API_URL, status_code=HTTPStatus.LOCKED)
             self.assertEqual(
-                search(self.CITY_NAME, self.LANG),
+                search(city_search),
                 {
                     "city_name": self.CITY_NAME,
                     "success": False,

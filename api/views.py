@@ -3,7 +3,7 @@ from django.utils.translation import get_language
 from django.views import generic
 
 from .forms import CitySearchForm
-from .utils import search
+from .utils import CitySearch, search
 
 
 class Index(generic.FormView):
@@ -17,7 +17,9 @@ class Index(generic.FormView):
 
 class SearchedIndex(Index, generic.FormView):
     def get_context_data(self, **kwargs):
-        lang = get_language()
-        searched_data = search(city_name=self.kwargs["city_name"], lang=lang)
+        city_search = CitySearch(
+            city_name=self.kwargs["city_name"], lang=get_language()
+        )
+        searched_data = search(city_search=city_search)
         context_data = super().get_context_data(**kwargs)
         return {**context_data, **searched_data}
